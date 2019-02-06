@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import Alamofire
 
 class PodcastSearchController: UITableViewController, UISearchBarDelegate {
     
-    let podcast = [
-        Podcast(name: "Let's Build That App", artistName: "Brian Voong"),
-         Podcast(name: "News of iOS", artistName: "Ulugbek Yusupov")
+    var podcast = [
+        Podcast(trackName: "Let's Build That App", artistName: "Brian Voong"),
+         Podcast(trackName: "News of iOS", artistName: "Ulugbek Yusupov")
     ]
     
     let cellId = "cellId"
@@ -36,8 +37,34 @@ class PodcastSearchController: UITableViewController, UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
-        // later implement Alamofire to search iTunes API
+        
+        let url = "https://itunes.apple.com/search"
+        let parameters = ["term": searchText, "media": "podcast"]
+        
+        AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseData { (dataResponce) in
+                
+                if let err = dataResponce.error {
+                    print("Failed to connect", err)
+                    return
+                }
+                guard let data = dataResponce.data else {return}
+                
+                do {
+                    let searchResult = try JSONDecoder().decode(SearchResult.self, from: data)
+                    
+                    self.podcast = searchResult.results
+                    self.tableView.reloadData()
+                    
+                }
+                catch let decoderErr {
+                    print("Failed to decode:", decoderErr)
+            }
+        }
+    }
+    
+    struct SearchResult: Decodable {
+        let resultCount: Int
+        let results: [Podcast]
     }
     
     fileprivate func setupTableView(){
@@ -57,7 +84,7 @@ class PodcastSearchController: UITableViewController, UISearchBarDelegate {
         let podcast = self.podcast[indexPath.row]
         
         // setting the name and artist name of podcasts and image icon on the cell
-        cell.textLabel?.text = "\(podcast.name)\n\(podcast.artistName)"
+        cell.textLabel?.text = "\(podcast.trackName ?? "")\n\(podcast.artistName ?? "")"
         cell.textLabel?.numberOfLines = -1
         cell.imageView?.image = #imageLiteral(resourceName: "appicon")
         
