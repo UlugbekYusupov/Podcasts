@@ -7,5 +7,5 @@ target 'PodcastsCourseLBTA' do
 
   # Pods for PodcastsCourseLBTA
   pod 'Alamofire', '~> 4.5'
-
+  pod 'SDWebImage', '~> 4.0'
 end

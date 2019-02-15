@@ -11,10 +11,7 @@ import Alamofire
 
 class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
     
-    var podcasts = [
-        Podcast(trackName: "Lets Build That App", artistName: "Brian Voong"),
-        Podcast(trackName: "Some Podcast", artistName: "Some Author"),
-    ]
+    var podcasts = [Podcast]()
     
     let cellId = "cellId"
     
@@ -46,29 +43,36 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
     }
     
     fileprivate func setupTableView() {
-//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         
+        tableView.tableFooterView = UIView()
         let nib = UINib(nibName: "PodcastCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: cellId)
     }
     
     //MARK:- UITableView
     
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let label = UILabel()
+        label.text = "Please enter a Search Term"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.textColor = .purple
+        
+        return label
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 250
+    }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return podcasts.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! PodcastCell
-        
         let podcast = self.podcasts[indexPath.row]
         cell.podcast = podcast
-        
-//        let podcast = self.podcasts[indexPath.row]
-//        cell.textLabel?.text = "\(podcast.trackName ?? "")\n\(podcast.artistName ?? "")"
-//        cell.textLabel?.numberOfLines = -1
-//        cell.imageView?.image = #imageLiteral(resourceName: "appicon")
-        
         return cell
     }
     
@@ -76,13 +80,6 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
         return 132
     }
 }
-
-
-
-
-
-
-
 
 
 

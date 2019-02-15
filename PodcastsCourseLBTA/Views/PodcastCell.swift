@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class PodcastCell: UITableViewCell {
     
@@ -19,7 +20,28 @@ class PodcastCell: UITableViewCell {
         didSet {
             trackNameLabel.text = podcast.trackName
             artistNameLabel.text = podcast.artistName
+            
+            episodeCountLabel.text = "\(podcast.trackCount ?? 0) Episodes"
+            
+            print("Loading image with url: ", podcast.artworkUrl600 ?? "")
+            
+            guard let url = URL(string: podcast.artworkUrl600 ?? "") else {return}
+            
+            
+            //Loading image from the url without caching
+            
+//            URLSession.shared.dataTask(with: url) { (data, _, _) in
+//
+//                guard let data = data else {return}
+//
+//                DispatchQueue.main.async {
+//                    self.podcastImageView.image = UIImage(data: data)
+//                }
+//
+//            }.resume()
+            
+            //loading image from the url with caching and wtih help of SDWebImage
+            podcastImageView.sd_setImage(with: url, completed: nil)
         }
     }
-    
 }
