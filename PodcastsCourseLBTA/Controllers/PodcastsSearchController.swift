@@ -7,12 +7,10 @@
 //
 
 import UIKit
-import Alamofire
 
 class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
     
     var podcasts = [Podcast]()
-    
     let cellId = "cellId"
     
     // lets implement a UISearchController
@@ -53,7 +51,6 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
     }
     
     //MARK:- UITableView
-    
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
