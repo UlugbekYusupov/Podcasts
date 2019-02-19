@@ -52,8 +52,10 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
     
     //MARK:- UITableView
     
+    // when user click podcast by tapping, it shows episodes in that podcast
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        //calling episodesController that has episodes for each tapped podcast
         let episodesController = EpisodesController()
         navigationController?.pushViewController(episodesController, animated: true)
         
