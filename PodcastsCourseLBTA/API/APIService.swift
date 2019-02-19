@@ -6,9 +6,9 @@
 //  Copyright © 2019 Ulugbek Yusupov. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Alamofire
-
+import FeedKit
 
 class APIService {
     
@@ -17,6 +17,34 @@ class APIService {
     //singleton
     static let shared = APIService()
     
+    // actual fetching episodes from the net
+    func fetchEpisodes(feedUrl: String, completionHandler: @escaping ([Episode]) -> ()) {
+        //making secure domains
+        let secureFeedUrl = feedUrl.contains("https") ? feedUrl : feedUrl.replacingOccurrences(of: "http", with: "https")
+        
+        // creating url for parsing JSON object returned from feed search
+        guard let url = URL(string: secureFeedUrl) else {return}
+        let parser = FeedParser(URL: url)
+        
+        //parsing that obejct and assigning it into result var
+        parser?.parseAsync(result: { (result) in
+            print("done",result.isSuccess)
+            
+            // checking if result is correctly parsed or not
+            if let err = result.error {
+                print("Failed to parse feed: ", err)
+                return
+            }
+            
+            guard let feed = result.rssFeed else {return}
+            
+            let episodes = feed.toEpisodes()
+            completionHandler(episodes)
+        })
+        
+    }
+    
+    // actual podcast fetching
     func fetchPodcasts(searchText: String, completionHandler: @escaping ([Podcast]) -> ()) {
         print("Searching for podcasts...")
         
