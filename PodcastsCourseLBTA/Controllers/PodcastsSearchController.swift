@@ -21,6 +21,7 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
         
         setupSearchBar()
         setupTableView()
+        searchBar(searchController.searchBar, textDidChange: "Voong")
     }
     
     //MARK:- Setup Work
@@ -36,8 +37,8 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
         APIService.shared.fetchPodcasts(searchText: searchText) { (podcasts) in
-            
             self.podcasts = podcasts
             self.tableView.reloadData()
         }
