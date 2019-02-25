@@ -23,16 +23,13 @@ class PlayerDetailsView: UIView {
     }
     
     let player: AVPlayer = {
-        
         let avPlayer = AVPlayer()
         avPlayer.automaticallyWaitsToMinimizeStalling = false
         return avPlayer
     }()
     
     fileprivate func playEpisode() {
-        
-        print("Trying to play episode ar url: ", episode.streamUrl)
-        
+
         guard let url = URL(string: episode.streamUrl) else {return}
         let playerItem = AVPlayerItem(url: url)
         
@@ -42,7 +39,6 @@ class PlayerDetailsView: UIView {
     }
     
     @objc func handlePlayPause() {
-        print("Trying to play pause")
         
         if player.timeControlStatus == .paused {
             player.play()
@@ -54,7 +50,6 @@ class PlayerDetailsView: UIView {
             player.pause()
             shrinkEpisodeImageView()
         }
-        
     }
     
     override func awakeFromNib() {
@@ -65,23 +60,28 @@ class PlayerDetailsView: UIView {
         let time = CMTime(value: 1, timescale: 3)
         let times = [NSValue(time: time)]
         
-        player.addBoundaryTimeObserver(forTimes: times, queue: .main) {
+        //player has a reference to self
+        player.addBoundaryTimeObserver(forTimes: times, queue: .main) { [weak self] in
             print("Episode started playing")
-            self.enlargeEpisodeImageView()
+            self?.enlargeEpisodeImageView()
         }
+    }
+    
+    deinit {
+        print("PlayerDetailsView memory being reclaimed ...")
     }
     
     //MARK:- PlayerCurrentTime and updateCurrentSlider
     
     fileprivate func observePlayerCurrentTime() {
-        let interval = CMTimeMake(value: 1, timescale: 2)
         
-        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { (time) in
+        let interval = CMTimeMake(value: 1, timescale: 2)
+        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] (time) in
             
-            self.currentTimeLabel.text = time.toDisplayString()
-            let durationTime =  self.player.currentItem?.duration
-            self.durationLabel.text = durationTime?.toDisplayString()
-            self.updateCurrentTimeSlider()
+            self?.currentTimeLabel.text = time.toDisplayString()
+            let durationTime =  self?.player.currentItem?.duration
+            self?.durationLabel.text = durationTime?.toDisplayString()
+            self?.updateCurrentTimeSlider()
         }
     }
     

@@ -24,24 +24,27 @@ class APIService {
         
         // creating url for parsing JSON object returned from feed search
         guard let url = URL(string: secureFeedUrl) else {return}
-        let parser = FeedParser(URL: url)
         
-        //parsing that obejct and assigning it into result var
-        parser?.parseAsync(result: { (result) in
-            print("done",result.isSuccess)
+        DispatchQueue.global(qos: .background).async {
             
-            // checking if result is correctly parsed or not
-            if let err = result.error {
-                print("Failed to parse feed: ", err)
-                return
-            }
+            let parser = FeedParser(URL: url)
             
-            guard let feed = result.rssFeed else {return}
-            
-            let episodes = feed.toEpisodes()
-            completionHandler(episodes)
-        })
-        
+            //parsing that obejct and assigning it into result var
+            parser?.parseAsync(result: { (result) in
+                print("done",result.isSuccess)
+                
+                // checking if result is correctly parsed or not
+                if let err = result.error {
+                    print("Failed to parse feed: ", err)
+                    return
+                }
+                
+                guard let feed = result.rssFeed else {return}
+                
+                let episodes = feed.toEpisodes()
+                completionHandler(episodes)
+            })
+        }
     }
     
     // actual podcast fetching

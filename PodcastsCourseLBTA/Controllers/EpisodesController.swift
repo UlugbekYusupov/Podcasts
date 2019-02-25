@@ -23,6 +23,7 @@ class EpisodesController: UITableViewController {
     fileprivate func fetchEpisodes(){
         
         guard let feedUrl = podcast?.feedUrl else {return}
+        
         APIService.shared.fetchEpisodes(feedUrl: feedUrl) { (episodes) in
             self.episodes = episodes
             DispatchQueue.main.async {
@@ -51,6 +52,19 @@ class EpisodesController: UITableViewController {
     
     //MARK:- UITableView
     
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let activityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
+        activityIndicatorView.color = .darkGray
+        activityIndicatorView.startAnimating()
+        
+        return activityIndicatorView
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return episodes.isEmpty ? 200 : 0
+    }
     
     // handles tappes when user click on the episode
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
