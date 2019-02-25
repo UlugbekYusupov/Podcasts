@@ -60,13 +60,37 @@ class PlayerDetailsView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        observePlayerCurrentTime()
+        
         let time = CMTime(value: 1, timescale: 3)
         let times = [NSValue(time: time)]
         
         player.addBoundaryTimeObserver(forTimes: times, queue: .main) {
-            print("episode started playing")
+            print("Episode started playing")
             self.enlargeEpisodeImageView()
         }
+    }
+    
+    //MARK:- PlayerCurrentTime and updateCurrentSlider
+    
+    fileprivate func observePlayerCurrentTime() {
+        let interval = CMTimeMake(value: 1, timescale: 2)
+        
+        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { (time) in
+            
+            self.currentTimeLabel.text = time.toDisplayString()
+            let durationTime =  self.player.currentItem?.duration
+            self.durationLabel.text = durationTime?.toDisplayString()
+            self.updateCurrentTimeSlider()
+        }
+    }
+    
+    fileprivate func updateCurrentTimeSlider() {
+        
+        let currentTimeSeconds = CMTimeGetSeconds(player.currentTime())
+        let durationSeconds = CMTimeGetSeconds(player.currentItem?.duration ?? CMTimeMake(value: 1, timescale: 1))
+        let percentage = currentTimeSeconds / durationSeconds
+        self.currentTimeSlider.value = Float(percentage)
     }
     
     //MARK:- Enlarge and Shrink methods
@@ -89,6 +113,10 @@ class PlayerDetailsView: UIView {
    
 
     //MARK:- IBActions and IBoutlets
+    
+    @IBOutlet weak var currentTimeLabel: UILabel!
+    @IBOutlet weak var durationLabel: UILabel!
+    @IBOutlet weak var currentTimeSlider: UISlider!
     
     @IBOutlet weak var episodeImageView: UIImageView! {
         didSet {
