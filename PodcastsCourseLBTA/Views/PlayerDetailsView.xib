@@ -43,6 +43,9 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="36" id="qct-Rh-ZvB"/>
                             </constraints>
+                            <connections>
+                                <action selector="handleCurrentTimeSliderChange:" destination="Q9r-vH-0hd" eventType="valueChanged" id="e1W-Rx-ARA"/>
+                            </connections>
                         </slider>
                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Ie-Tp-kIc">
                             <rect key="frame" x="0.0" y="422" width="327" height="22"/>
@@ -96,6 +99,9 @@
                                     </constraints>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="Button" image="rewind15"/>
+                                    <connections>
+                                        <action selector="handleRewind:" destination="Q9r-vH-0hd" eventType="touchUpInside" id="LwP-UZ-Knm"/>
+                                    </connections>
                                 </button>
                                 <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W0q-CH-Hci">
                                     <rect key="frame" x="93" y="0.0" width="48.5" height="79"/>
@@ -120,6 +126,9 @@
                                     </constraints>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="Button" image="fastforward15"/>
+                                    <connections>
+                                        <action selector="handleFastForward:" destination="Q9r-vH-0hd" eventType="touchUpInside" id="xm0-fT-zb8"/>
+                                    </connections>
                                 </button>
                                 <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m1W-EO-iUc">
                                     <rect key="frame" x="278.5" y="0.0" width="48.5" height="79"/>
@@ -136,8 +145,11 @@
                                         <constraint firstAttribute="width" constant="34" id="wLi-Ry-kgS"/>
                                     </constraints>
                                 </imageView>
-                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="DUE-tG-e90">
+                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="DUE-tG-e90">
                                     <rect key="frame" x="32" y="0.0" width="263" height="35"/>
+                                    <connections>
+                                        <action selector="handleVolumeChange:" destination="Q9r-vH-0hd" eventType="valueChanged" id="3fu-V6-NLf"/>
+                                    </connections>
                                 </slider>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="max_volume" translatesAutoresizingMaskIntoConstraints="NO" id="7vQ-G8-oPZ">
                                     <rect key="frame" x="293" y="0.0" width="34" height="34"/>
@@ -167,7 +179,7 @@
                 <outlet property="currentTimeSlider" destination="iex-0P-9eq" id="Viu-qx-JNG"/>
                 <outlet property="durationLabel" destination="3W6-EE-Bz4" id="ff3-nS-JJv"/>
                 <outlet property="episodeImageView" destination="xh6-2z-7xD" id="Xlh-VL-4U3"/>
-                <outlet property="playPauseButton" destination="yHY-db-eSg" id="ajj-6P-BL3"/>
+                <outlet property="playPauseButton" destination="yHY-db-eSg" id="hAI-md-jm6"/>
                 <outlet property="titleLabel" destination="WKL-Am-uJ5" id="YqG-p9-Rj7"/>
             </connections>
             <point key="canvasLocation" x="180" y="123"/>
