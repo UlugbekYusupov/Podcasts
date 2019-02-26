@@ -182,7 +182,7 @@
                 <outlet property="playPauseButton" destination="yHY-db-eSg" id="hAI-md-jm6"/>
                 <outlet property="titleLabel" destination="WKL-Am-uJ5" id="YqG-p9-Rj7"/>
             </connections>
-            <point key="canvasLocation" x="180" y="123"/>
+            <point key="canvasLocation" x="42" y="77"/>
         </view>
     </objects>
     <resources>

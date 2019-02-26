@@ -19,7 +19,6 @@ class MainTabBarController: UITabBarController {
         
         setupViewControllers()
         setupPlayerDetailsView()
-        perform(#selector(maximizePlayerDetails), with: nil, afterDelay: 1)
     }
     
     @objc func minimizePlayerDetails() {
@@ -28,38 +27,41 @@ class MainTabBarController: UITabBarController {
         minimizedTopAnchorConstraint.isActive = true
         
         UIView.animate(withDuration: 0.5, delay: 1, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            
             self.view.layoutIfNeeded()
+            self.tabBar.transform = .identity
         })
     }
     
-    @objc func maximizePlayerDetails() {
+    func maximizePlayerDetails(episode: Episode?) {
         
         maximizedTopAnchorConstraint.isActive = true
         maximizedTopAnchorConstraint.constant = 0
         minimizedTopAnchorConstraint.isActive = false
         
+        if episode != nil {
+            playerDetailsView.episode = episode
+        }
         UIView.animate(withDuration: 0.5, delay: 1, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            
             self.view.layoutIfNeeded()
+            self.tabBar.transform = CGAffineTransform(translationX: 0, y: 100)
         })
     }
     
     //MARK:- Setup Functions
     
+    let playerDetailsView = PlayerDetailsView.initFromNib()
+    
     var maximizedTopAnchorConstraint: NSLayoutConstraint!
     var minimizedTopAnchorConstraint: NSLayoutConstraint!
 
-    
     fileprivate func setupPlayerDetailsView() {
-        
-        let playerDetailsView = PlayerDetailsView.initFromNib()
-        
-        playerDetailsView.backgroundColor = .red
         
         view.insertSubview(playerDetailsView, belowSubview: tabBar)
     
         //enables auto layout
         playerDetailsView.translatesAutoresizingMaskIntoConstraints = false
-        
         
         maximizedTopAnchorConstraint =  playerDetailsView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height)
        
