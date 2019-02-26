@@ -16,7 +16,6 @@ class EpisodesController: UITableViewController {
         didSet {
             navigationItem.title = podcast?.trackName
             fetchEpisodes()
-
         }
     }
     
@@ -74,7 +73,6 @@ class EpisodesController: UITableViewController {
         let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
         mainTabBarController?.maximizePlayerDetails(episode: episode)
         
-//
 //
 //        let window = UIApplication.shared.keyWindow
 //

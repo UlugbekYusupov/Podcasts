@@ -14,11 +14,14 @@ class PlayerDetailsView: UIView {
     var episode: Episode! {
         
         didSet {
+            miniTitleLabel.text = episode.title
             titleLabel.text = episode.title
             authorLabel.text = episode.author
             playEpisode()
+            
             guard let url = URL(string: episode.imageUrl ?? "") else {return}
             episodeImageView.sd_setImage(with: url, completed: nil)
+            miniEpisodeImageView.sd_setImage(with: url)
         }
     }
     
@@ -43,19 +46,22 @@ class PlayerDetailsView: UIView {
         if player.timeControlStatus == .paused {
             player.play()
             playPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
+            miniPlayPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
             enlargeEpisodeImageView()
         }
         else {
             playPauseButton.setImage(#imageLiteral(resourceName: "play"), for: .normal)
+            miniPlayPauseButton.setImage(#imageLiteral(resourceName: "play"), for: .normal)
             player.pause()
             shrinkEpisodeImageView()
         }
     }
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(handleTapMaximize)))
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapMaximize)))
         
         observePlayerCurrentTime()
         
@@ -70,8 +76,8 @@ class PlayerDetailsView: UIView {
     }
     
     @objc func handleTapMaximize() {
-        let mainTabTabController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
-        mainTabTabController?.maximizePlayerDetails(episode: nil)
+        let mainTabTarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
+        mainTabTarController?.maximizePlayerDetails(episode: episode)
     }
     
     static func initFromNib() -> PlayerDetailsView {
@@ -126,6 +132,21 @@ class PlayerDetailsView: UIView {
     @IBOutlet weak var currentTimeLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var currentTimeSlider: UISlider!
+    
+    @IBOutlet weak var maximizedStackView: UIStackView!
+    @IBOutlet weak var miniPlayerView: UIView!
+    
+    @IBOutlet weak var miniEpisodeImageView: UIImageView!
+    @IBOutlet weak var miniTitleLabel: UILabel!
+    
+    @IBOutlet weak var miniPlayPauseButton: UIButton! {
+        didSet {
+            miniPlayPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
+            miniPlayPauseButton.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
+        }
+    }
+    @IBOutlet weak var miniFastForwardButton: UIButton!
+    
     @IBOutlet weak var episodeImageView: UIImageView! {
         didSet {
             episodeImageView.layer.cornerRadius = 5
@@ -163,6 +184,10 @@ class PlayerDetailsView: UIView {
     }
     
     @IBAction func handleFastForward(_ sender: Any) {
+        seekToCurrentTime(delta: 15)
+    }
+    
+    @IBAction func handleMiniFastForward(_ sender: Any) {
         seekToCurrentTime(delta: 15)
     }
     
