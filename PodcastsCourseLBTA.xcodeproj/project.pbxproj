@@ -101,8 +101,8 @@
 			children = (
 				C76281F2203CC78D00A0682E /* PodcastCell.xib */,
 				C76281F4203CCA0D00A0682E /* PodcastCell.swift */,
-				37358A07221B16A5001CC608 /* EpisodeCell.swift */,
 				37358A08221B16A5001CC608 /* EpisodeCell.xib */,
+				37358A07221B16A5001CC608 /* EpisodeCell.swift */,
 				37358A10221C6EC8001CC608 /* PlayerDetailsView.xib */,
 				37358A12221C7176001CC608 /* PlayerDetailsView.swift */,
 			);

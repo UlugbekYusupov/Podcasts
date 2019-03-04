@@ -12,7 +12,6 @@ import AVKit
 class PlayerDetailsView: UIView {
     
     var episode: Episode! {
-        
         didSet {
             miniTitleLabel.text = episode.title
             titleLabel.text = episode.title
@@ -57,11 +56,13 @@ class PlayerDetailsView: UIView {
         }
     }
 
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapMaximize)))
+        
+        addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePan
+            )))
         
         observePlayerCurrentTime()
         
@@ -75,6 +76,31 @@ class PlayerDetailsView: UIView {
         }
     }
     
+    @objc func handlePan(gesture: UIPanGestureRecognizer) {
+        
+        if gesture.state == .began {
+            print("Began")
+        }
+        else if gesture.state == .changed {
+            
+            let translation =  gesture.translation(in: self.superview)
+            self.transform = CGAffineTransform(translationX: 0, y: translation.y)
+            
+            self.miniPlayerView.alpha = 1 + translation.y / 200
+            self.maximizedStackView.alpha = -translation.y / 200
+        }
+        else if gesture.state == .ended {
+            print("Ended")
+            
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                
+                self.transform = .identity
+                self.miniPlayerView.alpha = 1
+                self.maximizedStackView.alpha = 0
+            })
+        }
+    }
+    
     @objc func handleTapMaximize() {
         let mainTabTarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
         mainTabTarController?.maximizePlayerDetails(episode: episode)
@@ -83,11 +109,7 @@ class PlayerDetailsView: UIView {
     static func initFromNib() -> PlayerDetailsView {
         return Bundle.main.loadNibNamed("PlayerDetailsView", owner: self, options: nil)?.first as! PlayerDetailsView
     }
-    
-    deinit {
-        print("PlayerDetailsView memory being reclaimed ...")
-    }
-    
+
     //MARK:- PlayerCurrentTime and updateCurrentSlider
     
     fileprivate func observePlayerCurrentTime() {
@@ -132,12 +154,12 @@ class PlayerDetailsView: UIView {
     @IBOutlet weak var currentTimeLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var currentTimeSlider: UISlider!
-    
     @IBOutlet weak var maximizedStackView: UIStackView!
     @IBOutlet weak var miniPlayerView: UIView!
-    
     @IBOutlet weak var miniEpisodeImageView: UIImageView!
     @IBOutlet weak var miniTitleLabel: UILabel!
+    @IBOutlet weak var miniFastForwardButton: UIButton!
+    @IBOutlet weak var authorLabel: UILabel!
     
     @IBOutlet weak var miniPlayPauseButton: UIButton! {
         didSet {
@@ -145,8 +167,7 @@ class PlayerDetailsView: UIView {
             miniPlayPauseButton.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
         }
     }
-    @IBOutlet weak var miniFastForwardButton: UIButton!
-    
+   
     @IBOutlet weak var episodeImageView: UIImageView! {
         didSet {
             episodeImageView.layer.cornerRadius = 5
@@ -154,9 +175,8 @@ class PlayerDetailsView: UIView {
             episodeImageView.transform = shrunkenTransform
         }
     }
-    @IBOutlet weak var authorLabel: UILabel!
+   
     @IBOutlet weak var playPauseButton: UIButton! {
-        
         didSet {
             playPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
             playPauseButton.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
@@ -164,7 +184,6 @@ class PlayerDetailsView: UIView {
     }
    
     @IBOutlet weak var titleLabel: UILabel! {
-        
         didSet {
             titleLabel.numberOfLines = 2
         }

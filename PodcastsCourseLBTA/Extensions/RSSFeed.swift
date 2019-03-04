@@ -15,7 +15,6 @@ extension RSSFeed {
         let imageUrl = iTunes?.iTunesImage?.attributes?.href
         var episodes = [Episode]()
         
-        
         // looping through all episodes in the network and assining it into [Episodes] array
         items?.forEach({ (feedItem) in
             var episode = Episode(feedItem: feedItem)
@@ -24,7 +23,6 @@ extension RSSFeed {
             }
             episodes.append(episode)
         })
-        
         return episodes
     }
 }

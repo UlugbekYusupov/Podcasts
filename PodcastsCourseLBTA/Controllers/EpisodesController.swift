@@ -42,6 +42,7 @@ class EpisodesController: UITableViewController {
     }
     
     //MARK:- Setup Work
+    
     fileprivate func setupTableView(){
 
         let nib = UINib(nibName: "EpisodeCell", bundle: nil)
