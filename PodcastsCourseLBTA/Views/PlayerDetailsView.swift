@@ -8,6 +8,7 @@
 
 import UIKit
 import AVKit
+import MediaPlayer
 
 class PlayerDetailsView: UIView {
     
@@ -90,10 +91,59 @@ class PlayerDetailsView: UIView {
             })
         }
     }
+    
+    // configuring audi player to show on command center
+    fileprivate func setupAudioSession() {
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+        } catch let sessionErr {
+            print("Failed to activate session:", sessionErr)
+        }
+        
+    }
+    
+    //configuring music remote controller in command center
+    fileprivate func setupRemoteControl() {
+        
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+        
+        let commandCenter = MPRemoteCommandCenter.shared()
+        
+        //handling play button on the commmand center
+        commandCenter.playCommand.isEnabled = true
+        commandCenter.playCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
+            self.player.play()
+            self.playPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
+            self.miniPlayPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
+            return .success
+        }
+        
+        //handling pause button on the command center
+        commandCenter.pauseCommand.isEnabled = true
+        commandCenter.pauseCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
+            self.player.pause()
+            self.playPauseButton.setImage(#imageLiteral(resourceName: "play"), for: .normal)
+            self.miniPlayPauseButton.setImage(#imageLiteral(resourceName: "play"), for: .normal)
+            return .success
+        }
+        
+        //enabling to use play pause button when using earphones or headphones
+        commandCenter.togglePlayPauseCommand.isEnabled = true
+        commandCenter.togglePlayPauseCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
+            
+            self.handlePlayPause()
+            return .success
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         
         setupGestures()
+        setupAudioSession()
+        setupRemoteControl()
         
         observePlayerCurrentTime()
         

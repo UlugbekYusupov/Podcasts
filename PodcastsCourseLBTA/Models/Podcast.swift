@@ -5,9 +5,8 @@
 //  Created by Ulugbek Yusupov on 2/7/19.
 //  Copyright © 2019 Ulugbek Yusupov. All rights reserved.
 //
-
-
 // Podcast struct with parameters
+
 import Foundation
 
 struct Podcast: Decodable {
