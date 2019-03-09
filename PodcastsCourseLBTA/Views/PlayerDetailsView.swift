@@ -164,7 +164,63 @@ class PlayerDetailsView: UIView {
             self.handlePlayPause()
             return .success
         }
+        
+        commandCenter.nextTrackCommand.addTarget(self, action: #selector(handleNextTrack))
+        commandCenter.previousTrackCommand.addTarget(self, action: #selector(handlePrevTrack))
     }
+    
+    var playListEpisodes = [Episode]()
+    
+    @objc func handlePrevTrack() {
+        
+        if playListEpisodes.isEmpty {
+            return
+        }
+        
+        let currentEpisodeIndex = playListEpisodes.index { (ep) -> Bool in
+            return self.episode.title == ep.title && self.episode.author == ep.author
+        }
+        
+        guard let index = currentEpisodeIndex else {return}
+        
+        let prevEpisode: Episode
+        
+        if index == 0 {
+            let count = playListEpisodes.count
+            prevEpisode = playListEpisodes[count - 1]
+        }
+        else {
+            prevEpisode = playListEpisodes[index - 1]
+        }
+        
+        self.episode = prevEpisode
+    }
+    
+    @objc func handleNextTrack() {
+        
+        if playListEpisodes.count == 0 {
+            return
+        }
+        
+        let currentEpisodeIndex = playListEpisodes.index { (ep) -> Bool in
+            return self.episode.title == ep.title && self.episode.author == ep.author
+        }
+        
+        guard let index = currentEpisodeIndex else {return}
+        
+        let nextEpisode: Episode
+        
+        if index == playListEpisodes.count - 1 {
+            nextEpisode = playListEpisodes[0]
+        }
+        else {
+            nextEpisode = playListEpisodes[index + 1]
+        }
+       
+        
+        self.episode = nextEpisode
+    }
+    
     fileprivate func setupElapsedTime() {
         
         let elapsed = CMTimeGetSeconds(player.currentTime())
