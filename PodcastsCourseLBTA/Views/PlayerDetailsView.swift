@@ -23,24 +23,17 @@ class PlayerDetailsView: UIView {
             
             guard let url = URL(string: episode.imageUrl ?? "") else {return}
             episodeImageView.sd_setImage(with: url, completed: nil)
-//            miniEpisodeImageView.sd_setImage(with: url)
+            miniEpisodeImageView.sd_setImage(with: url)
             
             miniEpisodeImageView.sd_setImage(with: url) { (image, _, _, _) in
                 
-                guard let image = image else {return}
-                //lockscreen artwork setup code
+                let image = self.episodeImageView.image ?? UIImage()
                 
-                var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
-                
-                
-                let artwork = MPMediaItemArtwork(boundsSize: image.size, requestHandler: { (_) -> UIImage in
+                let artwork = MPMediaItemArtwork(boundsSize: .zero, requestHandler: { (size) -> UIImage in
                     return image
                 })
                 
-                nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
-                
-                
-                MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+                MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
             }
         }
     }
@@ -144,29 +137,62 @@ class PlayerDetailsView: UIView {
         //handling play button on the commmand center
         commandCenter.playCommand.isEnabled = true
         commandCenter.playCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
+            
             self.player.play()
             self.playPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
             self.miniPlayPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
+            self.setupElapsedTime()
             return .success
         }
         
         //handling pause button on the command center
         commandCenter.pauseCommand.isEnabled = true
         commandCenter.pauseCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
+            
             self.player.pause()
             self.playPauseButton.setImage(#imageLiteral(resourceName: "play"), for: .normal)
             self.miniPlayPauseButton.setImage(#imageLiteral(resourceName: "play"), for: .normal)
+            self.setupElapsedTime()
             return .success
         }
         
         //enabling to use play pause button when using earphones or headphones
         commandCenter.togglePlayPauseCommand.isEnabled = true
+        
         commandCenter.togglePlayPauseCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
             
             self.handlePlayPause()
             return .success
         }
     }
+    fileprivate func setupElapsedTime() {
+        
+        let elapsed = CMTimeGetSeconds(player.currentTime())
+        
+        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = elapsed
+        
+    }
+    fileprivate func observeBoundaryTime() {
+        let time = CMTime(value: 1, timescale: 3)
+        let times = [NSValue(time: time)]
+        
+        //player has a reference to self
+        player.addBoundaryTimeObserver(forTimes: times, queue: .main) { [weak self] in
+            print("Episode started playing")
+            self?.enlargeEpisodeImageView()
+            self?.setUpLockScreenDuration()
+            
+        }
+    }
+    
+    fileprivate func setUpLockScreenDuration() {
+        
+        guard let duration = player.currentItem?.duration else {return}
+        let durationInSeconds = CMTimeGetSeconds(duration)
+        
+        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = durationInSeconds
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -176,14 +202,7 @@ class PlayerDetailsView: UIView {
         
         observePlayerCurrentTime()
         
-        let time = CMTime(value: 1, timescale: 3)
-        let times = [NSValue(time: time)]
-        
-        //player has a reference to self
-        player.addBoundaryTimeObserver(forTimes: times, queue: .main) { [weak self] in
-            print("Episode started playing")
-            self?.enlargeEpisodeImageView()
-        }
+        observeBoundaryTime()
     }
    
     
@@ -202,29 +221,11 @@ class PlayerDetailsView: UIView {
             let durationTime =  self?.player.currentItem?.duration
             self?.durationLabel.text = durationTime?.toDisplayString()
           
-            self?.setupLockscreenCurrentTime()
-          
             self?.updateCurrentTimeSlider()
         
         }
     }
-    
-    fileprivate func setupLockscreenCurrentTime() {
-        
-        var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
-    
-        guard let currentItem = player.currentItem else {return}
-        let durationInSeconds = CMTimeGetSeconds(currentItem.duration)
-        
-        let elapsedTime = CMTimeGetSeconds(player.currentTime())
-        
-        nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = durationInSeconds
-        nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = elapsedTime
-        
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-        
-    }
-    
+
     fileprivate func updateCurrentTimeSlider() {
         
         let currentTimeSeconds = CMTimeGetSeconds(player.currentTime())
@@ -299,6 +300,9 @@ class PlayerDetailsView: UIView {
         let durationInSeconds = CMTimeGetSeconds(duration)
         let seekTimeInSeconds = Float64(percentage) * durationInSeconds
         let seekTime = CMTimeMakeWithSeconds(seekTimeInSeconds, preferredTimescale: Int32(NSEC_PER_SEC))
+        
+        
+        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = seekTimeInSeconds
         
         player.seek(to: seekTime)
     }
