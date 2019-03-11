@@ -14,6 +14,7 @@
 		37358A0F221C638E001CC608 /* RSSFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37358A0E221C638E001CC608 /* RSSFeed.swift */; };
 		37358A11221C6EC8001CC608 /* PlayerDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37358A10221C6EC8001CC608 /* PlayerDetailsView.xib */; };
 		37358A13221C7176001CC608 /* PlayerDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37358A12221C7176001CC608 /* PlayerDetailsView.swift */; };
+		3737102222360B490059C2CA /* FavoritesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3737102122360B490059C2CA /* FavoritesController.swift */; };
 		374109242223F31900D51CDC /* CMTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374109232223F31900D51CDC /* CMTime.swift */; };
 		3749ACBF222CCE8900592238 /* PlayerDetailsView + Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3749ACBE222CCE8900592238 /* PlayerDetailsView + Gestures.swift */; };
 		3749ACC1222CD2AA00592238 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3749ACC0222CD2AA00592238 /* UIApplication.swift */; };
@@ -41,6 +42,7 @@
 		37358A0E221C638E001CC608 /* RSSFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSFeed.swift; sourceTree = "<group>"; };
 		37358A10221C6EC8001CC608 /* PlayerDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerDetailsView.xib; sourceTree = "<group>"; };
 		37358A12221C7176001CC608 /* PlayerDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsView.swift; sourceTree = "<group>"; };
+		3737102122360B490059C2CA /* FavoritesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesController.swift; sourceTree = "<group>"; };
 		374109232223F31900D51CDC /* CMTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMTime.swift; sourceTree = "<group>"; };
 		3749ACBE222CCE8900592238 /* PlayerDetailsView + Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlayerDetailsView + Gestures.swift"; sourceTree = "<group>"; };
 		3749ACC0222CD2AA00592238 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			children = (
 				C7A3FED42034DA5500E68D2F /* PodcastsSearchController.swift */,
 				37B949732218768800A87994 /* EpisodesController.swift */,
+				3737102122360B490059C2CA /* FavoritesController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				3749ACC1222CD2AA00592238 /* UIApplication.swift in Sources */,
 				3749ACBF222CCE8900592238 /* PlayerDetailsView + Gestures.swift in Sources */,
 				37358A0F221C638E001CC608 /* RSSFeed.swift in Sources */,
+				3737102222360B490059C2CA /* FavoritesController.swift in Sources */,
 				37358A13221C7176001CC608 /* PlayerDetailsView.swift in Sources */,
 				C7A3FED52034DA5500E68D2F /* PodcastsSearchController.swift in Sources */,
 				37358A0D221C62A7001CC608 /* String.swift in Sources */,

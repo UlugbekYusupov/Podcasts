@@ -13,6 +13,7 @@ import MediaPlayer
 class PlayerDetailsView: UIView {
     
     var episode: Episode! {
+        
         didSet {
             miniTitleLabel.text = episode.title
             titleLabel.text = episode.title
