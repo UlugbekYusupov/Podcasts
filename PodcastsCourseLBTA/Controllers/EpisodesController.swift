@@ -38,10 +38,41 @@ class EpisodesController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-        
+        setupNavigationBarButtons()
     }
     
     //MARK:- Setup Work
+    
+    fileprivate func setupNavigationBarButtons() {
+        
+        navigationItem.rightBarButtonItems = [
+            
+            UIBarButtonItem(title: "Favorite", style: .plain, target: self, action: #selector(handleSaveFavorite)),
+            UIBarButtonItem(title: "Fetch", style: .plain, target: self, action: #selector(handlefetchSavedPodcasts))
+        ]
+    }
+    
+    @objc fileprivate func handlefetchSavedPodcasts() {
+        
+        let value = UserDefaults.standard.value(forKey: favoritePodcastKey) as? String
+        print(value ?? "")
+        
+        
+        guard let data = UserDefaults.standard.data(forKey: favoritePodcastKey) else {return}
+        let podcast = NSKeyedUnarchiver.unarchiveObject(with: data) as? Podcast
+        print(podcast?.trackName! ?? "", podcast?.artistName ?? "")
+    }
+    
+    let favoritePodcastKey = "favoritePodcastKey"
+    
+    @objc fileprivate func handleSaveFavorite() {
+        
+        guard let podcast = self.podcast else {return}
+//        UserDefaults.standard.set(podcast.trackName, forKey: favoritePodcastKey)
+        let data = NSKeyedArchiver.archivedData(withRootObject: podcast)
+        
+        UserDefaults.standard.set(data, forKey: favoritePodcastKey)
+    }
     
     fileprivate func setupTableView(){
 
@@ -51,7 +82,6 @@ class EpisodesController: UITableViewController {
     }
     
     //MARK:- UITableView
-    
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let activityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
