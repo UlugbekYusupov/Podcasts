@@ -15,6 +15,7 @@
 		37358A11221C6EC8001CC608 /* PlayerDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37358A10221C6EC8001CC608 /* PlayerDetailsView.xib */; };
 		37358A13221C7176001CC608 /* PlayerDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37358A12221C7176001CC608 /* PlayerDetailsView.swift */; };
 		3737102222360B490059C2CA /* FavoritesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3737102122360B490059C2CA /* FavoritesController.swift */; };
+		37371024223788280059C2CA /* FavoritesPodcastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37371023223788280059C2CA /* FavoritesPodcastCell.swift */; };
 		374109242223F31900D51CDC /* CMTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374109232223F31900D51CDC /* CMTime.swift */; };
 		3749ACBF222CCE8900592238 /* PlayerDetailsView + Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3749ACBE222CCE8900592238 /* PlayerDetailsView + Gestures.swift */; };
 		3749ACC1222CD2AA00592238 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3749ACC0222CD2AA00592238 /* UIApplication.swift */; };
@@ -43,6 +44,7 @@
 		37358A10221C6EC8001CC608 /* PlayerDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerDetailsView.xib; sourceTree = "<group>"; };
 		37358A12221C7176001CC608 /* PlayerDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsView.swift; sourceTree = "<group>"; };
 		3737102122360B490059C2CA /* FavoritesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesController.swift; sourceTree = "<group>"; };
+		37371023223788280059C2CA /* FavoritesPodcastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesPodcastCell.swift; sourceTree = "<group>"; };
 		374109232223F31900D51CDC /* CMTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMTime.swift; sourceTree = "<group>"; };
 		3749ACBE222CCE8900592238 /* PlayerDetailsView + Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlayerDetailsView + Gestures.swift"; sourceTree = "<group>"; };
 		3749ACC0222CD2AA00592238 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				37358A10221C6EC8001CC608 /* PlayerDetailsView.xib */,
 				37358A12221C7176001CC608 /* PlayerDetailsView.swift */,
 				3749ACBE222CCE8900592238 /* PlayerDetailsView + Gestures.swift */,
+				37371023223788280059C2CA /* FavoritesPodcastCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				C76281E6203BCC0800A0682E /* APIService.swift in Sources */,
 				C7A3FED82034DAE200E68D2F /* Podcast.swift in Sources */,
 				37358A06221B157D001CC608 /* Episode.swift in Sources */,
+				37371024223788280059C2CA /* FavoritesPodcastCell.swift in Sources */,
 				C76281F5203CCA0D00A0682E /* PodcastCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -469,8 +473,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z5RJG7XYPH;
 				INFOPLIST_FILE = PodcastsCourseLBTA/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.letsbuildthatapp.PodcastsCourseLBTA;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fdksnfkjsdbfksdjf;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -485,8 +490,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z5RJG7XYPH;
 				INFOPLIST_FILE = PodcastsCourseLBTA/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.letsbuildthatapp.PodcastsCourseLBTA;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fdksnfkjsdbfksdjf;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
