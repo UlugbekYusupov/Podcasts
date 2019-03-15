@@ -16,7 +16,6 @@ class FavoritesController: UICollectionViewController, UICollectionViewDelegateF
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupCollectionView()
         
     }
@@ -24,6 +23,7 @@ class FavoritesController: UICollectionViewController, UICollectionViewDelegateF
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         var podcasts = UserDefaults.standard.savedPodcasts()
+        
         collectionView.reloadData()
         UIApplication.mainTabBarController()?.viewControllers?[1].tabBarItem.badgeValue = nil
         
