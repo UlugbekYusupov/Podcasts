@@ -95,6 +95,11 @@ class EpisodesController: UITableViewController {
         UIApplication.mainTabBarController()?.viewControllers?[1].tabBarItem.badgeValue = "New"
         
     }
+    fileprivate func showBadgeDownloadHighlight() {
+        
+        UIApplication.mainTabBarController()?.viewControllers?[2].tabBarItem.badgeValue = "New"
+        
+    }
     fileprivate func setupTableView(){
 
         let nib = UINib(nibName: "EpisodeCell", bundle: nil)
@@ -117,6 +122,7 @@ class EpisodesController: UITableViewController {
             //download the episodes using Alamofire
             APIService.shared.downloadEpisode(episode: episode)
             
+            self.showBadgeDownloadHighlight()
         }
         return [downloadAction]
     }

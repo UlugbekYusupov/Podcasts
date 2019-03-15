@@ -10,6 +10,10 @@ import UIKit
 import Alamofire
 import FeedKit
 
+extension NSNotification.Name {
+    static  let downloadProgress = NSNotification.Name("downloadProgress")
+}
+
 class APIService {
     
     let baseiTunesSearchURL = "https://itunes.apple.com/search"
@@ -23,7 +27,11 @@ class APIService {
         let downloadRequest = DownloadRequest.suggestedDownloadDestination()
         
         Alamofire.download(episode.streamUrl, to: downloadRequest).downloadProgress { (progress) in
-            print(progress.fractionCompleted)
+            
+            // notify DownloadsController about download progress
+            
+            NotificationCenter.default.post(name: .downloadProgress, object: nil, userInfo: ["title": episode.title,"progress": progress.fractionCompleted])
+            
             }.response { (resp) in
                 print(resp.destinationURL?.absoluteString ?? "")
                 

@@ -17,8 +17,21 @@ class DownloadsController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         setupTableView()
+        setupObservers()
+    }
+    
+    fileprivate func setupObservers() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDownloadProgress), name: .downloadProgress, object: nil)
+    }
+    
+    @objc fileprivate func handleDownloadProgress(notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String: Any] else {return}
+        guard let progress = userInfo["progress"] as? Double else {return}
+        guard let title = userInfo["title"] as? String else {return}
+        
+        print(progress, title)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -26,6 +39,7 @@ class DownloadsController: UITableViewController {
         
         episodes = UserDefaults.standard.downloadedEpisodes()
         tableView.reloadData()
+        UIApplication.mainTabBarController()?.viewControllers?[2].tabBarItem.badgeValue = nil
     }
     //MARK:- Setup
     
@@ -42,8 +56,23 @@ class DownloadsController: UITableViewController {
         
         let episodes = self.episodes[indexPath.row]
         
-        UIApplication.mainTabBarController()?.maximizePlayerDetails(episode: episodes, playlistEpisodes: self.episodes)
-        
+        if episodes.fileUrl != nil {
+            UIApplication.mainTabBarController()?.maximizePlayerDetails(episode: episodes, playlistEpisodes: self.episodes)
+        }
+        else {
+            
+            let alertController = UIAlertController(title: "File URL not found", message: "Cannot find file, play using stream url instead", preferredStyle: .actionSheet)
+            alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (_) in
+                
+                UIApplication.mainTabBarController()?.maximizePlayerDetails(episode: episodes, playlistEpisodes: self.episodes)
+                
+            }))
+            
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            
+            present(alertController,animated: true)
+            
+        }
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
