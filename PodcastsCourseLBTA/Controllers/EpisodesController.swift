@@ -45,11 +45,22 @@ class EpisodesController: UITableViewController {
     
     fileprivate func setupNavigationBarButtons() {
         
-        navigationItem.rightBarButtonItems = [
+        let savedPodcasts = UserDefaults.standard.savedPodcasts()
+        
+        let hasFavorited = savedPodcasts.index(where: { $0.trackName == self.podcast?.trackName && $0.artistName == self.podcast?.artistName}) != nil
+        
+        if hasFavorited {
+            // setting up our heart icon
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "35 heart"), style: .plain, target: nil, action: nil)
             
-            UIBarButtonItem(title: "Favorite", style: .plain, target: self, action: #selector(handleSaveFavorite)),
-            UIBarButtonItem(title: "Fetch", style: .plain, target: self, action: #selector(handlefetchSavedPodcasts))
-        ]
+        }
+        else {
+            navigationItem.rightBarButtonItems = [
+                
+                UIBarButtonItem(title: "Favorite", style: .plain, target: self, action: #selector(handleSaveFavorite)),
+                UIBarButtonItem(title: "Fetch", style: .plain, target: self, action: #selector(handlefetchSavedPodcasts))
+            ]
+        }
     }
     
     @objc fileprivate func handlefetchSavedPodcasts() {
@@ -67,14 +78,23 @@ class EpisodesController: UITableViewController {
         
         guard let podcast = self.podcast else {return}
         
+        
+        // 1. transform Podcast into Data
         var listOfPodcasts = UserDefaults.standard.savedPodcasts()
         listOfPodcasts.append(podcast)
-        
         let data = NSKeyedArchiver.archivedData(withRootObject: listOfPodcasts)
         
         UserDefaults.standard.set(data, forKey: UserDefaults.favoritePodcastKey)
+        
+        showBadgeHighlight()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "35 heart"), style: .plain, target: nil, action: nil)
     }
     
+    fileprivate func showBadgeHighlight() {
+        
+        UIApplication.mainTabBarController()?.viewControllers?[1].tabBarItem.badgeValue = "New"
+        
+    }
     fileprivate func setupTableView(){
 
         let nib = UINib(nibName: "EpisodeCell", bundle: nil)
