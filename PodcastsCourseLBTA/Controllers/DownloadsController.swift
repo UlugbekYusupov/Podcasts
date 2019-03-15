@@ -38,6 +38,13 @@ class DownloadsController: UITableViewController {
     
     //MARK:- UITableView
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let episodes = self.episodes[indexPath.row]
+        
+        UIApplication.mainTabBarController()?.maximizePlayerDetails(episode: episodes, playlistEpisodes: self.episodes)
+        
+    }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
