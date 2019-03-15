@@ -49,11 +49,20 @@
                             </label>
                         </subviews>
                     </stackView>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="51d-UZ-5U9">
+                        <rect key="frame" x="28" y="71" width="76.5" height="34.5"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                        <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="51d-UZ-5U9" firstAttribute="centerY" secondItem="T23-P7-SCd" secondAttribute="centerY" id="2v5-Tx-xzD"/>
                     <constraint firstItem="Xr9-ty-lNG" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ArG-he-1De"/>
                     <constraint firstItem="T23-P7-SCd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="VRN-VM-Ae1"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Xr9-ty-lNG" secondAttribute="trailing" id="YaU-ek-NEM"/>
+                    <constraint firstItem="51d-UZ-5U9" firstAttribute="centerX" secondItem="T23-P7-SCd" secondAttribute="centerX" id="ayP-4A-z89"/>
                     <constraint firstItem="T23-P7-SCd" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="jzd-yt-vlI"/>
                     <constraint firstItem="Xr9-ty-lNG" firstAttribute="leading" secondItem="T23-P7-SCd" secondAttribute="trailing" constant="16" id="zLZ-9c-cJw"/>
                 </constraints>
@@ -62,6 +71,7 @@
             <connections>
                 <outlet property="descriptionLabel" destination="sLf-2Y-7Hm" id="KXD-P5-ZLf"/>
                 <outlet property="episodeImageView" destination="T23-P7-SCd" id="12Z-nC-ERo"/>
+                <outlet property="progressLabel" destination="51d-UZ-5U9" id="EdZ-ZV-6HY"/>
                 <outlet property="pubDateLabel" destination="5Dd-Ll-5Cg" id="dgz-IU-J5f"/>
                 <outlet property="titleLabel" destination="xFb-tK-BSV" id="fwW-Lu-ok3"/>
             </connections>

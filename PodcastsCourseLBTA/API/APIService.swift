@@ -12,9 +12,12 @@ import FeedKit
 
 extension NSNotification.Name {
     static  let downloadProgress = NSNotification.Name("downloadProgress")
+    static let downloadComplete = NSNotification.Name("downloadComplete")
 }
 
 class APIService {
+    
+    typealias EpisodeDownloadCompleteTuple = (fileUrl: String, espisodeTitle: String)
     
     let baseiTunesSearchURL = "https://itunes.apple.com/search"
     
@@ -34,6 +37,10 @@ class APIService {
             
             }.response { (resp) in
                 print(resp.destinationURL?.absoluteString ?? "")
+                
+                let episodeDownloadComplete = EpisodeDownloadCompleteTuple(resp.destinationURL?.absoluteString ?? "", episode.title)
+                
+                NotificationCenter.default.post(name: .downloadComplete, object: episodeDownloadComplete, userInfo: nil)
                 
                 //update UseerDefaults downloaded episodes with this temp file
                 

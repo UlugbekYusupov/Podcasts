@@ -28,6 +28,7 @@ class EpisodeCell: UITableViewCell {
     
     @IBOutlet weak var pubDateLabel: UILabel!
     @IBOutlet weak var episodeImageView: UIImageView!
+    @IBOutlet weak var progressLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel! {
         didSet {
             descriptionLabel.numberOfLines = 2
